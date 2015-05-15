@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="com.creditease.sia.server.action.hmModelDatasetMppingInt" extends="default" namespace="/hm/zsj">
+
+		<action name="hmModelDatasetMppingInt_*"
+				class="hmModelDatasetMppingIntAction"
+				method="{1}">
+					<result>/zsj/user/hmModelDatasetMpping.jsp</result>
+		</action>
+		<action name="hmModelDatasetMppingInt">
+			<result>/zsj/user/hmModelDatasetMpping.jsp</result>
+		</action>
+
+	</package>
+</struts>

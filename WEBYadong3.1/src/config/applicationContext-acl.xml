@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:s="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+	<!-- Automatically receives AuthenticationEvent messages -->
+	<bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+	<!-- ========= ACL SERVICE  DEFINITIONS ========= -->
+
+	<bean id="aclCache"
+		class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
+		<constructor-arg>
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+				<property name="cacheManager">
+					<bean
+						class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
+				</property>
+				<property name="cacheName" value="aclCache" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="lookupStrategy"
+		class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="aclCache" />
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
+				<constructor-arg>
+					<list>
+						<ref local="adminRole" />
+						<ref local="adminRole" />
+						<ref local="adminRole" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="adminRole"
+		class="org.springframework.security.core.authority.GrantedAuthorityImpl">
+		<constructor-arg value="ROLE_USER" />
+	</bean>
+
+	<bean id="aclService"
+		class="org.springframework.security.acls.jdbc.JdbcMutableAclService">
+		<constructor-arg ref="dataSource" />
+		<constructor-arg ref="lookupStrategy" />
+		<constructor-arg ref="aclCache" />
+		<property name="classIdentityQuery" value="SELECT acl_class_seq.CURRVAL AS ID FROM DUAL"/>
+		<property name="sidIdentityQuery" value="SELECT acl_sid_seq.CURRVAL AS ID FROM DUAL"/>
+	</bean>
+	<!-- 注入到我们想要转移权限的地方 -->
+	<bean id="authorization"
+			class="com.creditease.core.security.Authorization">
+			<property name="mutableAclService" ref="aclService"/>
+			<property name="userAutService" ref="userAutService"/>
+	</bean>
+	<!-- ACL permission masks used by this application -->
+	<bean
+		id="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.springframework.security.acls.domain.BasePermission.ADMINISTRATION
+			</value>
+		</property>
+	</bean>
+	<bean id="org.springframework.security.acls.domain.BasePermission.READ"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.springframework.security.acls.domain.BasePermission.READ
+			</value>
+		</property>
+	</bean>
+	<bean id="org.springframework.security.acls.domain.BasePermission.WRITE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.springframework.security.acls.domain.BasePermission.WRITE
+			</value>
+		</property>
+	</bean>
+	<bean id="org.springframework.security.acls.domain.BasePermission.CREATE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.springframework.security.acls.domain.BasePermission.CREATE
+			</value>
+		</property>
+	</bean>
+	<bean id="org.springframework.security.acls.domain.BasePermission.DELETE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>
+				org.springframework.security.acls.domain.BasePermission.DELETE
+			</value>
+		</property>
+	</bean>
+	<bean id="aclIdVoter"
+		class="com.creditease.core.security.acl.IdParameterAclEntryVoter">
+		<constructor-arg ref="aclService" />
+		<constructor-arg value="ACL_ID_VOTER" />
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.READ" />
+			</list>
+		</constructor-arg>
+		<property name="processDomainObjectClass"
+			value="com.creditease.core.security.acl.AclEntity" />
+	</bean>
+	<bean id="aclAbstractElementWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
+      <constructor-arg ref="aclService"/>
+      <constructor-arg value="ACL_ABSTRACT_ELEMENT_WRITE"/>
+      <constructor-arg>
+          <list>
+          <ref local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION"/>
+          <ref local="org.springframework.security.acls.domain.BasePermission.WRITE"/>
+          </list>
+      </constructor-arg>
+      <property name="processDomainObjectClass"><value>com.creditease.core.security.acl.AclEntity</value></property>
+   </bean>
+   <!-- An access decision voter that reads ROLE_* configuration settings -->
+   <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+
+	<bean id="aclAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+	    <property name="allowIfAllAbstainDecisions" value="true"/>
+        <property name="decisionVoters">
+            <list>
+               <ref local="roleVoter"/>
+               <ref local="aclIdVoter"/>
+               <ref local="aclAbstractElementWriteVoter"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="afterAclRead"
+		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationProvider">
+		<constructor-arg ref="aclService" />
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.READ" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="afterAclCollectionRead"
+		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
+		<constructor-arg ref="aclService" />
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.READ" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="afterAclCreate"
+		class="com.creditease.core.security.acl.CreateAclEntryAfterInvocationProvider">
+		<constructor-arg ref="aclService" />
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+			</list>
+		</constructor-arg>
+		<property name="processDomainObjectClass"
+			value="com.creditease.core.security.acl.AclEntity" />
+		<property name="handlers">
+			<list>
+				<ref local="aclHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="afterAclDelete"
+		class="com.creditease.core.security.acl.DeleteAclEntryAfterInvocationProvider">
+		<constructor-arg ref="aclService" />
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+			</list>
+		</constructor-arg>
+		<property name="processDomainObjectClass"
+			value="com.creditease.core.security.acl.AclEntity" />
+		<property name="handlers">
+			<list>
+				<ref local="aclHandler" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="afterIdCollectionAcl"
+		class="com.creditease.core.security.acl.AclIdAfterInvocationCollectionFilteringProvider">
+		<constructor-arg ref="aclService" />	
+		<constructor-arg>
+			<list>
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.ADMINISTRATION" />
+				<ref
+					local="org.springframework.security.acls.domain.BasePermission.READ" />
+			</list>
+		</constructor-arg>
+		<property name="lookupStrategy" ref="lookupStrategy"/>
+	</bean>
+
+	<bean id="aclHandler" class="com.creditease.core.security.AclHandlerImp">
+		<property name="mutableAclService" ref="aclService" />
+		<property name="userAutService" ref="userAutService" />
+	</bean>
+
+	<!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+	 
+
+	<bean id="afterInvocationManager"
+		class="org.springframework.security.access.intercept.AfterInvocationProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="afterAclRead" />
+				<ref local="afterAclCollectionRead" />
+				<ref local="afterIdCollectionAcl" />				
+				<ref local="afterAclCreate" />
+				<ref local="afterAclDelete" />
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="defaultMethodSecurityMetadataSource" class="com.creditease.core.security.DefaultMethodSecurityMetadataSource">		
+		<property name="resourceDetailsService" ref="resourceDetailsService"/>
+	</bean>
+	
+	<bean id="methodSecurityAdvisor"
+		class="org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor"
+		autowire="constructor" />
+	
+	<bean id="Methodsecurityinterceptor"
+		class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor">
+		<property name="authenticationManager">
+			<ref bean="authenticationManager" />
+		</property>
+		<property name="accessDecisionManager">
+			<ref local="aclAccessDecisionManager" />
+		</property>
+		<property name="afterInvocationManager">
+			<ref local="afterInvocationManager" />
+		</property>
+<!--		<property name="securityMetadataSource" ref="defaultMethodSecurityMetadataSource"/>-->
+		<property name="securityMetadataSource">
+         <value>
+         	
+         </value>
+      </property>
+	</bean>
+	
+	
+</beans>

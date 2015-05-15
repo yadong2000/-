@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+<generatorConfiguration>  
+    <classPathEntry  location="D:\work\lib\mysql-connector-java-5.1.12.jar" />  
+    <context id="DB2Tables"   >  
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1/adminwyd" userId="root" password="111111"/>  
+        <javaModelGenerator targetPackage="com.creditease.sia.server.domain" targetProject="WEBFramework3.1" />  
+        <sqlMapGenerator targetPackage="com.creditease.sia.server.domain" targetProject="WEBFramework3.1"  />  
+         <table tableName="xiao_replay" domainObjectName="replay" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/> 
+    </context>  
+</generatorConfiguration>

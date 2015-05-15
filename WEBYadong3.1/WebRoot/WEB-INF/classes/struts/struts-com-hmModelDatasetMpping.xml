@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="com.creditease.sia.server.action.hmModelDatasetMpping" extends="struts-default" namespace="/">
+
+		<action name="hmModelDatasetMpping_*" class="hmModelDatasetMppingAction" method="{1}">
+			<result name="forWord">/jsp/user/regedit.jsp</result>
+			<result name="login">/jsp/login.jsp</result>
+			<result name="userCenter" >/jsp/user/user-center.jsp</result> 
+	       <result name="loginSucess"  type="redirect">/index.jsp</result>  
+	       <result name="login1" >/index.jsp</result>   
+			<result name="forWordtoUserList">/jsp/user/user-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+		</action>
+		<action name="rolesMpping_*" class="rolesAction" method="{1}">
+			<result name="forWord">/jsp/role/regedit.jsp</result>
+			<result name="login">/jsp/login.jsp</result>
+			<result name="forWordtoRoleList">/jsp/role/role-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+		</action>
+		
+		<action name="menusMpping_*" class="menuAction" method="{1}">
+			<result name="forWord">/jsp/role/regedit.jsp</result>
+			<result name="login">/jsp/login.jsp</result>
+			<result name="forWordtoMenuList">/jsp/menu/menu-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+		</action>
+		<!-- 谜语  publish -->
+		<action name="riddlesAction_*" class="riddlesAction" method="{1}">
+			<result name="forWord">/jsp/role/regedit.jsp</result>
+			<result name="toListriddles">/jsp/user/index.jsp</result>
+			<result name="loginSucess"  type="redirect">/index.jsp</result>  
+			<result name="forWordtoMenuList">/jsp/menu/menu-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+			<result name="publish">/jsp/mycomment/getRibbles.jsp</result>
+			<result name="jape">/jsp/mycomment/getjapes.jsp</result>
+		</action>
+		
+		<action name="commentAction_*" class="commentAction" method="{1}">
+			<result name="forWord">/jsp/role/regedit.jsp</result>
+			<result name="login">/jsp/login.jsp</result>
+			<result name="forWordtoMenuList">/jsp/menu/menu-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+		</action>
+	<action name="uploadAction_*" class="uploadAction" method="{1}">
+			<result name="forWord">/jsp/role/regedit.jsp</result>
+			<result name="login">/jsp/login.jsp</result>
+			<result name="forWordtoMenuList">/jsp/menu/menu-list.jsp</result>
+			<result name="saveUI">/jsp/user/userManage.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,5 @@
+0.系统启动的时候，MySecurityMetadataSource加载资源与权限的对应关系loadResourceDefine()入resourceMap;
+1.MySecurityFilter doFilter拦截请求
+2.MySecurityMetadataSource.getAttributes(Object) 获取请求资源所需要的权限
+3.MyAccessDecisionManager.decide(0bject) 是否拥有所请求资源的权限
+

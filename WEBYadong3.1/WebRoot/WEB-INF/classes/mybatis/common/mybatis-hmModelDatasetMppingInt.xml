@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.creditease.sia.server.domain.HmModelDatasetMppingInt">
+	<resultMap id="hmModelDatasetMppingResultMap" type="com.creditease.sia.server.domain.HmModelDatasetMppingInt">
+		<result column="ID" property="id" />
+		<result column="MODEL_ID" property="modelId" jdbcType="VARCHAR" />
+		<result column="DATASET_IDS" property="datasetIds" jdbcType="VARCHAR" />
+		<result column="MAPPING_INFO" property="mappingInfo" jdbcType="VARCHAR" />
+		<result column="MAPPING_TIME" property="mappingTime" jdbcType="TIMESTAMP" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 表名 -->
+	<sql id="tableNameSql">
+		hm_model_dataset_mpping_int
+	</sql>
+
+	<!-- 用于select查询、insert的公用抽取的列 -->
+	<sql id="commonSelectColumnsPrefix">
+        	ID ,
+        	MODEL_ID ,
+        	DATASET_IDS ,
+        	MAPPING_INFO ,
+        	MAPPING_TIME ,
+        	REMARK ,
+        	TYPE 
+	</sql>
+
+	<!-- 按主键查找条件语句 -->
+	<sql id="conditionOnlyId">
+		ID = #{id}
+	</sql>
+	
+	<sql id="mainSql">
+		SELECT
+			<include refid="commonSelectColumnsPrefix"/>
+		FROM
+			<include refid="tableNameSql"/> p
+	</sql>
+
+	<sql id="varSql">
+		<where>
+			<if test="modelId!=null and modelId!=''">and p.MODEL_ID like #{modelId} </if>
+			<if test="datasetIds!=null and datasetIds!=''">and p.DATASET_IDS like #{datasetIds} </if>
+			<if test="mappingInfo!=null and mappingInfo!=''">and p.MAPPING_INFO like #{mappingInfo} </if>
+			<if test="remark!=null and remark!=''">and p.REMARK like #{remark} </if>
+			<if test="type!=null and type!=''">and p.TYPE like #{type} </if>
+		</where>
+	</sql>
+
+	
+	<select id="findPageBy" parameterType="java.util.Map" resultMap="hmModelDatasetMppingResultMap">
+ 		<include refid="mainSql"/>
+ 		<include refid="varSql"/>
+		<if test="SORT != null and SORT != ''">
+ 			order by ${SORT}
+ 			<if test="DIR != null and DIR != ''">
+ 				 ${DIR}
+ 			</if>
+ 		</if>
+	</select>
+	
+	
+<!-- 	<select id="findPageBy" parameterType="java.util.Map" resultType="com.creditease.sia.server.domain.HmModelDatasetMppingInt">
+		select 
+		<if test="fields != null">${fields}</if> 
+		<if test="fields == null">*</if> 
+	   	       from  hm_model_dataset_mpping a
+		<trim prefix="where" prefixOverrides="and |or">
+			<if test="TYPE!=null">
+				AND a.TYPE=#{TYPE}
+			</if>
+			<if test="REMARK!=null">
+				AND a.REMARK=#{REMARK}
+			</if>
+			<if test="MAPPING_TIME!=null">
+				AND a.MAPPING_TIME=#{MAPPING_TIME}
+			</if>
+			<if test="MAPPING_INFO!=null">
+				AND a.strategy_name like '%${strategy_name}%'
+				AND a.MAPPING_INFO like CONCAT(CONCAT('%', #{MAPPING_INFO}), '%')
+			</if>
+			<if test="DATASET_IDS!=null and DATASET_IDS.length!=0">
+				AND a.DATASET_IDS in
+				<foreach index="index" item="item" collection="DATASET_IDS" separator="," open="(" close=")" >#{item}</foreach>
+			</if>
+		</trim>
+	</select> -->
+
+	<select id="getById" parameterType="String" resultMap="hmModelDatasetMppingResultMap">
+		<include refid="mainSql"/>
+		where <include refid="conditionOnlyId"/>
+	</select>
+
+	<select id="getCountBy" parameterType="java.util.Map" resultType="INTEGER">
+		SELECT
+			COUNT(*) AS C
+		FROM
+			<include refid="tableNameSql"/> p
+		<include refid="varSql"/>
+	</select>
+
+	<select id="findListBy" parameterType="java.util.Map" resultMap="hmModelDatasetMppingResultMap">
+		<include refid="mainSql"/>
+		<include refid="varSql"/>
+	</select>
+
+	<insert id="save" parameterType="com.creditease.sia.server.domain.HmModelDatasetMppingInt">
+		<selectKey resultType="int" order="BEFORE" keyProperty="id">
+		      select SEQ_HM_MODEL_INT.nextval as id from dual
+		</selectKey>
+		insert into
+			<include refid="tableNameSql"/>
+		(
+			<include refid="commonSelectColumnsPrefix"/>
+		)
+		values
+		(
+			#{id} ,
+			#{modelId, jdbcType=VARCHAR} ,
+			#{datasetIds, jdbcType=VARCHAR} ,
+			#{mappingInfo, jdbcType=VARCHAR} ,
+			#{mappingTime, jdbcType=TIMESTAMP} ,
+			#{remark, jdbcType=VARCHAR} ,
+			#{type, jdbcType=VARCHAR} 
+		)
+	</insert>
+	
+	
+	<!-- 1.新增记录 -->
+<!--   <insert id="add" parameterType="Object" > -->
+<!--      <selectKey resultType="int" order="BEFORE" keyProperty="id"> -->
+<!--       select seq_t_users_id.nextval as id from dual -->
+<!--     </selectKey> -->
+<!--     insert into t_users(id,name,sex,birs,message) values(#{id},#{name},#{sex},#{birs},#{message,jdbcType=CLOB}) -->
+<!--   </insert> -->
+	
+
+	<update id="update" parameterType="com.creditease.sia.server.domain.HmModelDatasetMppingInt">
+		update
+			<include refid="tableNameSql"/>
+		set
+			MODEL_ID = #{modelId, jdbcType=VARCHAR} ,
+			DATASET_IDS = #{datasetIds, jdbcType=VARCHAR} ,
+			MAPPING_INFO = #{mappingInfo, jdbcType=VARCHAR} ,
+			MAPPING_TIME = #{mappingTime, jdbcType=TIMESTAMP} ,
+			REMARK = #{remark, jdbcType=VARCHAR} ,
+			TYPE = #{type, jdbcType=VARCHAR} 
+		where <include refid="conditionOnlyId"/>
+	</update>
+
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from <include refid="tableNameSql"/> 
+		where ID in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
+	</delete>
+
+	<delete id="deleteById" parameterType="Object">
+		delete from <include refid="tableNameSql"/> where <include refid="conditionOnlyId"/>
+	</delete>
+
+</mapper>

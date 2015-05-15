@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd"> 
+<struts> 
+
+    <package name="base-default" extends="struts-default" namespace="/">
+ 		<!-- 设置拦截器 -->
+ 		<interceptors>
+ 			<interceptor name="userLoginInterceptor" class="com.cbs.zcx.interceptor.LoginInterceptor"/>
+ 		<!-- 设置拦截器栈 --><!--所谓拦截器栈,是指由一个或多个拦截器组成 -->  
+ 			<interceptor-stack name="baseInterceptor">
+ 				 <!-- struts2 提供的拦截器栈,包含了struts2的很多核心拦截器 -->  
+ 				<interceptor-ref name="defaultStack"></interceptor-ref>
+ 				<!-- 自己定义的放在最后面,struts2定义的放在前面 -->  
+ 				<interceptor-ref name="userLoginInterceptor"></interceptor-ref>
+ 			</interceptor-stack>
+ 		</interceptors>
+
+		<!--设置 默认拦截器 --><!-- 为此包下的所有action应用拦截器 -->  
+		<default-interceptor-ref name="baseInterceptor" />
+		<!--设置 拦截结果 -->
+		<global-results>
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+ 	</package>
+ 	
+ 	
+    <package name="com.cbs.zcx.users.UserAction" extends="base-default" namespace="/user/zsj"> 
+        <action name="login_*" class="userAction" method="{1}"> 
+            <result name="success">/index.jsp</result> 
+            <result name="error">/login.jsp</result> 
+        </action> 
+
+    </package> 
+    
+<!--     <package name="com.test.model.action.hmBmModelConfig" extends="default" namespace="/zsj/model"> -->
+
+<!-- 		<action name="hmBmModelConfig_*" -->
+<!-- 				class="hmBmModelConfigAction" -->
+<!-- 				method="{1}"> -->
+<!-- 		</action> -->
+		
+
+<!-- 	</package> -->
+    
+
+ 	
+ 	<!-- 该 属性指定Struts 2中的action由Spring容器创 建 -->
+    <constant name="struts.objectFactory" value="spring" />
+	<!--    该 属性指定需要Struts 2处理的请求后缀，该属性的默认值是action，即 所有匹配*.action的请求都由Struts 2处理。如 果用户需要指定多个请求后缀，则多个后缀之间以英文逗号（，）隔开 --> 
+	<constant name="struts.action.extension" value="cbx" />
+</struts>

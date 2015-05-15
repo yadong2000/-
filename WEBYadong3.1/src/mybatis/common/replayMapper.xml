@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.creditease.sia.server.domain.replay" >
+  <resultMap id="BaseResultMap" type="com.creditease.sia.server.domain.replay" >
+  
+    <id column="replayId" property="replayId" jdbcType="INTEGER" />
+    <result column="creditTime" property="creditTime" jdbcType="TIMESTAMP" />
+    <result column="IP" property="IP" jdbcType="VARCHAR" />
+    <result column="replayContext" property="replayContext" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="deleteId" property="deleteId" jdbcType="INTEGER" />
+    <result column="commentId" property="commentId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   
+    replayId, creditTime, IP, replayContext, deleteId, commentId, userId ,userName
+  </sql>
+  <select id="selectReplayById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   
+     select     <include refid="Base_Column_List" />
+       from xiao_replay  x where  
+       x.replayId in (select  r.replayId
+       from xiao_conment_repaly r where r.commentId = #{integer,jdbcType=INTEGER});
+ 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  
+    delete from xiao_replay
+    where replayId = #{replayId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.creditease.sia.server.domain.replay" >
+    
+    insert into xiao_replay (replayId, creditTime, IP, 
+      replayContext, deleteId, commentId, 
+      userId)
+    values (#{replayId,jdbcType=INTEGER}, #{creditTime,jdbcType=TIMESTAMP}, #{IP,jdbcType=VARCHAR}, 
+      #{replaycontext,jdbcType=VARCHAR}, #{deleteId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="map"  >
+   insert into xiao_conment_repaly  
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        commentId,
+      </if>
+       <if test="userId != null" >
+        userId,
+      </if>
+       <if test="replayId != null" >
+        replayId,
+      </if>
+      </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="replayId != null" >
+        #{replayId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="save"   useGeneratedKeys="true" keyProperty="replayId" parameterType="com.creditease.sia.server.domain.replay" >
+    insert into xiao_replay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="replayId != null" >
+        replayId,
+      </if>
+    
+        creditTime,
+     
+      <if test="IP != null" >
+        IP,
+      </if>
+      <if test="replayContext != null" >
+        replayContext,
+      </if>
+      <if test="deleteId != null" >
+        deleteId,
+      </if>
+      <if test="commentId != null" >
+        commentId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="replayId != null" >
+        #{replayId,jdbcType=INTEGER},
+      </if>
+       current_date(),
+    
+      <if test="IP != null" >
+        #{IP,jdbcType=VARCHAR},
+      </if>
+      <if test="replayContext != null" >
+        #{replayContext,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteId != null" >
+        #{deleteId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.creditease.sia.server.domain.replay" >
+  
+    update xiao_replay
+    <set >
+      <if test="creditTime != null" >
+        creditTime = #{creditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="IP != null" >
+        IP = #{IP,jdbcType=VARCHAR},
+      </if>
+      <if test="replaycontext != null" >
+        replayContext = #{replaycontext,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteId != null" >
+        deleteId = #{deleteId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null" >
+        commentId = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where replayId = #{replayId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.creditease.sia.server.domain.replay" >
+   
+    update xiao_replay
+    set creditTime = #{creditTime,jdbcType=TIMESTAMP},
+      IP = #{IP,jdbcType=VARCHAR},
+      replayContext = #{replaycontext,jdbcType=VARCHAR},
+      deleteId = #{deleteId,jdbcType=INTEGER},
+      commentId = #{commentId,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER}
+    where replayId = #{replayId,jdbcType=INTEGER}
+  </update>
+</mapper>

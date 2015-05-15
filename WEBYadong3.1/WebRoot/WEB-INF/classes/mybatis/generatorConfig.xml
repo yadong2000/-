@@ -1,0 +1,27 @@
+<!-- <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+ 
+    <classPathEntry  location="D:\logs\mysql-connector-java-5.1.18-bin.jar"/>  
+    <context id="context1" >  
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1/adminwyd" userId="root" password="111111">  
+        </jdbcConnection>  
+        <javaModelGenerator targetPackage="com.creditease.sia.server.domain" targetProject="WEBFramework3.1">  
+        </javaModelGenerator>  
+        <sqlMapGenerator targetPackage="mybatis" targetProject="WEBFramework3.1">  
+        </sqlMapGenerator>  
+         <table tableName="xiao_user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" 
+        enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>  
+        
+        <table tableName="xiao_roles" domainObjectName="Roles" enableCountByExample="false" enableUpdateByExample="false" 
+        enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table tableName="xiao_menu" domainObjectName="Menus" enableCountByExample="false" enableUpdateByExample="false" 
+        enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        
+        <table tableName="xiao_riddle" domainObjectName="Riddle" enableCountByExample="false" enableUpdateByExample="false" 
+        enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> xiao_comment
+        
+         <table tableName="xiao_comment" domainObjectName="Comment" enableCountByExample="false" enableUpdateByExample="false" 
+        enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    </context>  
+</generatorConfiguration> -->

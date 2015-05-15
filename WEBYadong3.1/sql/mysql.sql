@@ -1,0 +1,12 @@
+
+
+CREATE TABLE `hm_model_dataset_mpping` (
+  `Id` varchar(255) NOT NULL DEFAULT '',
+  `MODEL_ID` varchar(255) DEFAULT NULL,
+  `DATASET_IDS` varchar(255) DEFAULT NULL,
+  `MAPPING_INFO` varchar(255) DEFAULT NULL,
+  `MAPPING_TIME` timestamp NULL DEFAULT NULL,
+  `REMARK` varchar(255) DEFAULT NULL,
+  `TYPE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

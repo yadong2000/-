@@ -1,0 +1,64 @@
+.reg_popup_wrapper{ width: 658px; height: 529px; background: url("/ssm/image/popup_back.png") no-repeat 0 0;margin:0 auto;}
+.reg_popup_header{ width: 648px; height: 48px; position: relative;}
+.reg_popup_header h1{color: #fff; font-size: 14px; font-weight: normal; float: left; margin: 20px 0 0 35px;_margin-left: 17px;}
+.reg_popup_header img{position: absolute; right: 15px; top: 18px;}
+.reg_popup_tab,
+.regpsd_error_span,
+.yzm_btn,
+.reg_btn,
+.popup_login_btn{
+  background: url("/ssm/image/reg_popup_btns.png") no-repeat 0 0;
+}
+.reg_popup_tab{ width: 549px; height: 41px; background-position: 0 -370px; margin: 29px 0 0 31px;}
+.reg_popup_tab li{ width: 183px; height: 41px; list-style: none;float: left; cursor: pointer; text-indent: -9999px;}
+.reg_form_item{ width: 520px;margin: 30px auto 0 115px;}
+.reg_form_item dl{margin-bottom: 13px;}
+.reg_form_item dl dt{ width: 65px; display: inline; float: left; font-size: 14px; line-height: 40px; padding-right: 16px; text-align: right;}
+.reg_form_item dl dt label{ font-weight: normal; color: #000; cursor: text;}
+.reg_form_item dl dd{display: inline; float: left;width: 434px;}
+.reg_form_item dl dd input{ width: 231px; height: 25px; line-height: 25px; margin-right: 7px; padding: 7px 10px; font-size: 14px; border: 1px solid #C5C5C5; border-radius: 3px 3px 3px 3px; }
+.reg_form_item dl dd input:focus{ border: 1px solid #00B9BD;}
+.right_icon{ display: none; width: 18px; height: 18px; float: left; position: relative; top: 12px; background: url("http://a.xnimg.cn/imgpro/reg/reg_phone_email/icon_right.png") no-repeat scroll 0 0 transparent;}
+.error_icon{ width: 18px; height: 18px; position: absolute; top: 13px; left: 0; background: url("http://a.xnimg.cn/imgpro/reg/reg_phone_email/icon_nempty.png") no-repeat scroll 0 0 transparent;}
+.reg_form_item dl dd input.input_error{ border-color: #C30404; background-color: #FFF1F1;}
+.box_error{ width: 130px; height: 40px; line-height: 20px; position: relative;}
+.box_error b{ width: 110px; color: #999; font-weight: normal; float: right;}
+.box_error b.short_error_text{margin-top: 10px;}/*提示字数一行以内*/
+.regpsd_error_span{width: 133px; height: 17px; background-position: 0 -220px; margin-top: 10px;}
+.regpsd_error_span2{background-position: 0 -260px;}/*密码强度状态2*/
+.regpsd_error_span3{background-position: 0 -300px;}/*密码强度状态3*/
+.regpsd_error_span4{background-position: 0 -340px;}/*密码强度状态4*/
+.reg_form_item  input.radio{height: 15px;text-align: left;width: 25px; border: none;}
+dd.sex_radio{ margin-top: 10px;}
+.reg_form_item dl dd input.yzm_input{width: 91px; margin-right: 5px;}
+.yzm_btn{ width: 137px; height: 39px; line-height: 35px; font-size: 14px; text-align: center; float: left; background-position: -483px -225px;margin-right: 5px;}
+.yzm_btn a:hover{text-decoration: none;}
+.reg_form_item dl dd input.reg_btn{ width: 140px; height: 45px; background-position: -404px 0; text-indent: -9999px; float: left;padding: 0;border: none; border-radius: none; margin: 20px auto 0 83px; +margin-left:0;}
+.reg_form_item dl dd input.reg_btn:hover{background-position: -404px -76px;}
+.reg_form_item dl dd input.reg_btn_gray{background-position: -2px -115px;cursor: text;}/*注册按钮不可用状态*/
+img.e_code{margin-right: 40px;}
+.yzm_update{  width: 90px; clear: left; display: block; margin-left: 123px; _margin-left: 60px;}
+#email_reg_form .reg_btn{margin-top: 4px;_margin-top: 5px;}
+.popup_input_back{  background: url("/ssm/image/face-icon.png") no-repeat scroll 5px 5px #FFFFFF; padding-left: 25px; width: 206px;text-indent: 25px;}
+.popup_psd_back{ background: url("/ssm/image/lock-icon.png") no-repeat scroll 5px 5px  #FFFFFF;padding-left: 25px;width: 206px;text-indent: 25px;}
+.reg_form_item dl dd input.popup_checkbox{width: 13px; height: 13px; margin-left: 83px; border: none;+margin-left:0;}
+.forget_psd label{color: #B4B4B4;margin-right: 20px; font-weight: normal;}
+.reg_form_item dl dd input.popup_login_btn{ width: 133px; height: 45px; float: left; background-position: -263px -1px; text-indent: -9999px; border: none; padding: 0; margin: 30px 0 0 83px;+margin:10px 0 0;}
+.reg_form_item dl dd input.popup_login_btn:hover{ background-position: -263px -76px;}
+.reg_form_item dl dd input.popup_login_btn_gray{ background-position: -263px -154px;}/*登录按钮不可用状态*/
+dd{position: relative;}
+.placehld{position: absolute; width: 239px; height: 39px; top: 1px;left: 1px; cursor: text;line-height: 38px;padding-left: 10px;font-size: 14px; background-color: #fff; color: #666;}
+#reg-pop-window{position: absolute;top: 0px;width: 100%;height: 0;z-index: 1999;}
+.login-icon{height: 20px;float: left;margin-top: 32px;}
+.login-icon a{width: 20px;height: 20px;overflow: hidden;background: url("/ssm/image/login_icon.png") no-repeat 0 0;text-indent: -9999px;float: left;margin-left: 15px;}
+.login-icon a.qq{background-position: -24px 0;}
+.login-icon a.db{background-position: -47px 0;}
+#email_reg_form .login-icon{margin-top: 15px;}
+#login_form .login-icon{margin-top: 43px;+margin-top: 20px;}
+
+
+.iframe_wrapper{width: 100%;height: 100%;background: url("/ssm/image/filter_back.png") repeat scroll 0 0 transparent;position: absolute;top: 0;display: none;z-index: 2001;}
+.iframe_box{margin: 0 auto;width: 658px; height: 100%;}
+.iframe_position{width: 658px; height: 529px;position: fixed;top: 15%;}
+#reg_popup_iframe{width: 658px;height:529px;}
+.iframe_close{position: absolute;width: 22px;height: 22px;right: 20px;top: 15px;cursor: pointer;background: url("/ssm/image/close.png") repeat scroll 0 0 transparent;}
